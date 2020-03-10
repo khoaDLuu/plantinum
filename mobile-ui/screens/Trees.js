@@ -60,15 +60,6 @@ export default class Trees extends React.Component {
         "moisture": "27%",
         "lightIntensity": "70%"
       },
-      {
-        "id": 7,
-        "name": "marijuana",
-        "url": "https://lh3.googleusercontent.com/RwNe5QDCkc2btbCzUVvKB_1LFI0Bc-BRUFz7Sk7ZEe9ymPK7zsfaW4zdEVoShGNrqN2DtuZ6vrbfLocpjL4O6aPkUaX7XgVOX258LOy025sg0T69TY8a3VwSizEQtN6GAwMMNVLNr3hG5CZHCS7k5ovYoDccOHiTBiPp3oW3JaDfvujotUKfQPG1jQ7U7lLhJ_P5WD6eUld4oqgjLu8k3-9W_RUcleb_ewt0nX6z9__X0rs8mEU8C501rfaXut4MW8vXgeTvfs1rRujo4qrjg4oknvtOfypS9Ql3HuUceLzRpRMfJhS34WR9yPnRoA42CVHfL3rulxzCG7CDK4FwciVq1yrvBTLCfufazYezYEAFOIaBOu-Y66k4yVNHUTra5yEFyH653FgXLGYnsUOonKPsFK2vhWUTBRAbhyoez0ih91oKEp9RydfAF3Gv_DN7T695CSKdJ6XBrYr2jl4kuII5muJyR3gD0LAfwf1hBEFai0elWGRg6H-LOtAfAOO7uZZibSc1L-BfkGD9xrNq8uMI4uoRh3MpOSpefqfixxLX7iJzeEqM7Jt_g_VrwXq7QyfLGX1gHT4vMGmwuEAdB_TyDbSQW1n3eCNCPdiZwqBSNIr8wWy6brYVrXIFWVlpQzqdb_91umY5bSLsIGjO3g91qkilYKCjNGwi0Ivw1kT2eaqCJXqpKA=s512-no",
-        "temperature": "10%",
-        "humidity": "50%",
-        "moisture": "27%",
-        "lightIntensity": "70%"
-      },
     ]
     };
   }
