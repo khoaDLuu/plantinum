@@ -5,24 +5,24 @@
 ### For Linux / Ubuntu
 
 * Install [Python 3.8](https://www.python.org/downloads/)
-```
-sudo apt update
-sudo apt install software-properties-common
-sudo add-apt-repository ppa:deadsnakes/ppa
-[Enter]
-sudo apt install python3.8
-python3.8 --version
-```
+  ```
+  sudo apt update
+  sudo apt install software-properties-common
+  sudo add-apt-repository ppa:deadsnakes/ppa
+  [Enter]
+  sudo apt install python3.8
+  python3.8 --version
+  ```
 
 * Install pip (3.8)
-```
-sudo apt install python3-pip
-```
+  ```
+  sudo apt install python3-pip
+  ```
 
 * Install venv (3.8)
-```
-sudo apt install python3.8-venv
-```
+  ```
+  sudo apt install python3.8-venv
+  ```
 
 * Download the datasets
   * for plant type classifier: [plants](#)
@@ -30,22 +30,22 @@ sudo apt install python3.8-venv
 
 * Set up virtual evironment
   * Make sure the current location is `server-api`, if it's the root directory:
-  ```
-  cd server-api
-  ```
+    ```
+    cd server-api
+    ```
   * Create a virtual environment:
-  ```
-  python3.8 -m venv venv
-  ```
+    ```
+    python3.8 -m venv venv
+    ```
   * Activate the virtual environment
-  ```
-  source venv/bin/activate
-  ```
+    ```
+    source venv/bin/activate
+    ```
 
 * Install necessary packages for Python
-```
-pip install -r requirements.txt
-```
+  ```
+  pip install -r requirements.txt
+  ```
 
 ### For Windows
 
@@ -57,19 +57,20 @@ pip install -r requirements.txt
 
 * Set up virtual evironment
   * Make sure the current location is `server-api`. If it's the root directory:
-  ```
-  cd server-api
-  ```
+    ```
+    cd server-api
+    ```
   * Create a virtual environment:
-  ```
-  python -m venv venv
-  ```
+    ```
+    python -m venv venv
+    ```
   * Activate the virtual environment
-  ```
-  source venv/Scripts/activate
-  ```
+    ```
+    source venv/Scripts/activate
+    ```
 
 * Install necessary packages for Python
-```
-pip install -r requirements.txt
-```
+  ```
+  pip install -r requirements.txt
+  ```
+
