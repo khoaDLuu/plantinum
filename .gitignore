@@ -1,3 +1,10 @@
+# This project ignored files
+server-api/sampledata.json
+
+# Editor files
+.vscode
+.vs/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
