@@ -1,1 +1,1 @@
-web: gunicorn server-api/app:plantinum-stage --remote stage --log-file -
+web: gunicorn app:plantinum-stage --log-file -
