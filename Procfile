@@ -1,1 +1,1 @@
-web: gunicorn app:plantinum --log-file -
+web: gunicorn server-api/app.py:plantinum-stage --log-file -
