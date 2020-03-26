@@ -1,5 +1,6 @@
-# This project ignored files
+# This project's ignored files
 server-api/sampledata.json
+migrations/
 
 # Editor files
 .vscode
