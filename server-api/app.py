@@ -8,7 +8,6 @@ app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
-# migrate = Migrate(app, db)
 
 @app.route('/')
 def hello():
@@ -46,7 +45,7 @@ def receive_sensor_data(plant_id):
         data = request.get_json()
         ss_data = SensorData(
             plant_id=plant_id,
-            temp=data['temp'],
+            temp=data['temperature'],
             humidity=data['humidity'],
             moisture=data['moisture'],
             light_intensity=data['light_intensity'],
@@ -54,10 +53,9 @@ def receive_sensor_data(plant_id):
         )
         db.session.add(ss_data)
         db.session.commit()
-
         return {
             "message": (f"Sensor data of plant with id {ss_data.plant_id}"
-                        "has been inserted successfully")
+                        " has been inserted successfully")
         }
     else:
         return {"error": "The request payload is not in JSON format"}
@@ -75,8 +73,8 @@ def retrieve_latest(plant_id):
         "temperature": latest_ss_data.temp,
         "humidity": latest_ss_data.humidity,
         "moisture": latest_ss_data.moisture,
-        "lightIntensity": latest_ss_data.light_intensity,
-        "imgurl": latest_ss_data.img_url
+        "light_intensity": latest_ss_data.light_intensity,
+        "img_url": latest_ss_data.img_url
     })
 
 
