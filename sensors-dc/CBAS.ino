@@ -6,7 +6,7 @@ void setup (){
 
 pinMode(Led,OUTPUT);//pinMode xuất tín hiệu đầu ra cho led
 
-pinMode(cambien,INPUT);//pinMode nhận tín hiệu đầu vào cho cảm biê
+pinMode(cambien,INPUT);//pinMode nhận tín hiệu đầu vào cho cảm biến
 
 }
 
