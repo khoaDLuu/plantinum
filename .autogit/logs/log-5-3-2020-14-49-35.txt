@@ -1,0 +1,22 @@
+-------------------- Auto-Git Log --------------------
+		Sun Apr 05 2020 14:49:35 GMT+0700 (Giờ Đông Dương)
+------------------------------------------------------
+
+Modified files:
+* sensors-dc/test1.py
+
+
+Created files:
+* .autogit/logs/log-11-2-2020-20-42-53.txt
+* sensors-dc/ArduinoToRasp.py
+* sensors-dc/Camera.py
+* sensors-dc/NDDA.ino
+
+
+Deleted files:
+
+
+Renamed files:
+* [object Object]
+* [object Object]
+* [object Object]
