@@ -1,0 +1,17 @@
+-------------------- Auto-Git Log --------------------
+		Wed Apr 08 2020 00:57:22 GMT+0700 (Giờ Đông Dương)
+------------------------------------------------------
+
+Modified files:
+* rpi-dp/planttp-clfier/network_testing.py
+* rpi-dp/planttp-clfier/network_training.py
+
+
+Created files:
+* .autogit/logs/log-8-3-2020-0-27-16.txt
+
+
+Deleted files:
+
+
+Renamed files:
