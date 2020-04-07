@@ -64,7 +64,7 @@ random.shuffle(image_paths)
 
 for image_path in image_paths:
     image = cv2.imread(image_path)
-    image = cv2.resize(image, (64, 64))
+    image = cv2.resize(image, (28, 28))
     image = img_to_array(image)
     data.append(image)
 
@@ -97,7 +97,7 @@ aug = ImageDataGenerator(
 
 print('[INFO] compiling model...')
 model = LeNet.build(
-    width=64, height=64, depth=3, classes=4
+    width=28, height=28, depth=3, classes=4
 )
 opt = Adam(lr=INIT_LR, decay=INIT_LR / EPOCHS)
 model.compile(

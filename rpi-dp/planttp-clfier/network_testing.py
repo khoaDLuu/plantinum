@@ -27,7 +27,7 @@ args = vars(ap.parse_args())
 image = cv2.imread(args["image"])
 original = image.copy()
 
-image = cv2.resize(image, (64, 64))
+image = cv2.resize(image, (28, 28))
 image = image.astype("float") / 255.0
 image = img_to_array(image)
 image = np.expand_dims(image, axis=0)
