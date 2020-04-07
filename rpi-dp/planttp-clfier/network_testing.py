@@ -2,8 +2,8 @@
 # based on this article on pyimagesearch
 # https://www.pyimagesearch.com/2017/12/11/image-classification-with-keras-and-deep-learning/
 
-# To test the network from terminal, run
-# python3 test_network.py --model datalib/models/planttype.model --image datalib/images-test/test.jpg
+# To test the network from terminal, make sure you are at rpi-dp/planttp-clfier/, if not cd there and run:
+# python network_testing.py --model planttype.model --image test/test.jpg
 
 import argparse
 
@@ -27,7 +27,7 @@ args = vars(ap.parse_args())
 image = cv2.imread(args["image"])
 original = image.copy()
 
-image = cv2.resize(image, (28, 28))
+image = cv2.resize(image, (64, 64))
 image = image.astype("float") / 255.0
 image = img_to_array(image)
 image = np.expand_dims(image, axis=0)

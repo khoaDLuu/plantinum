@@ -2,8 +2,8 @@
 # based on this article on pyimagesearch
 # https://www.pyimagesearch.com/2017/12/11/image-classification-with-keras-and-deep-learning/
 
-# To train the network from terminal, run
-# python3 train_network.py --dataset datalib/images --model datalib/models/planttype.model --plot datalib/plots/plot.png
+# To train the network from terminal, make sure you are at rpi-dp/planttp-clfier/, if not cd there and run:
+# python network_training.py --dataset dataset --model planttype.model
 
 import os
 import argparse
@@ -17,7 +17,7 @@ from keras.optimizers import Adam
 from sklearn.model_selection import train_test_split
 from keras.preprocessing.image import img_to_array
 from keras.utils import to_categorical
-from model_lenet.lenet import LeNet
+from lenet import LeNet
 import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use('Agg')
@@ -34,13 +34,13 @@ ap.add_argument(
     help='path to output model'
 )
 ap.add_argument(
-    '-p', '--plot', type=str, default='datalib/plots/plot.png',
+    '-p', '--plot', type=str, default='test/plot.png',
     help='path to output accuracy/lost plot'
 )
 args = vars(ap.parse_args())
 
 # Set variables, initializing ...
-EPOCHS = 40
+EPOCHS = 25
 INIT_LR = 1e-3
 BS = 32
 
@@ -64,7 +64,7 @@ random.shuffle(image_paths)
 
 for image_path in image_paths:
     image = cv2.imread(image_path)
-    image = cv2.resize(image, (28, 28))  # change the dimensions to increase performance (accuracy) of the model
+    image = cv2.resize(image, (64, 64))
     image = img_to_array(image)
     data.append(image)
 
@@ -79,7 +79,7 @@ labels = np.array(labels)
     data,
     labels,
     test_size=0.25,
-    random_state=48
+    random_state=35
 )
 
 trainL = to_categorical(trainL, num_classes=4)
@@ -97,7 +97,7 @@ aug = ImageDataGenerator(
 
 print('[INFO] compiling model...')
 model = LeNet.build(
-    width=28, height=28, depth=3, classes=4
+    width=64, height=64, depth=3, classes=4
 )
 opt = Adam(lr=INIT_LR, decay=INIT_LR / EPOCHS)
 model.compile(
