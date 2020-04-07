@@ -17,10 +17,11 @@ from keras.optimizers import Adam
 from sklearn.model_selection import train_test_split
 from keras.preprocessing.image import img_to_array
 from keras.utils import to_categorical
-from lenet import LeNet
 import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use('Agg')
+
+from lenet import LeNet
 
 
 # Parsing terminal command
@@ -43,6 +44,7 @@ args = vars(ap.parse_args())
 EPOCHS = 25
 INIT_LR = 1e-3
 BS = 32
+IMG_SIZE = 64
 
 print('[INFO] loading images...')
 data = []
@@ -64,7 +66,7 @@ random.shuffle(image_paths)
 
 for image_path in image_paths:
     image = cv2.imread(image_path)
-    image = cv2.resize(image, (64, 64))
+    image = cv2.resize(image, (IMG_SIZE, IMG_SIZE))
     image = img_to_array(image)
     data.append(image)
 
@@ -97,7 +99,7 @@ aug = ImageDataGenerator(
 
 print('[INFO] compiling model...')
 model = LeNet.build(
-    width=64, height=64, depth=3, classes=4
+    width=IMG_SIZE, height=IMG_SIZE, depth=3, classes=4
 )
 opt = Adam(lr=INIT_LR, decay=INIT_LR / EPOCHS)
 model.compile(

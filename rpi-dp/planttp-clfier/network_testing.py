@@ -13,6 +13,8 @@ import numpy as np
 import imutils
 import cv2
 
+IMG_SIZE = 64
+
 ap = argparse.ArgumentParser()
 ap.add_argument(
     '-m', '--model', required=True,
@@ -27,7 +29,7 @@ args = vars(ap.parse_args())
 image = cv2.imread(args["image"])
 original = image.copy()
 
-image = cv2.resize(image, (64, 64))
+image = cv2.resize(image, (IMG_SIZE, IMG_SIZE))
 image = image.astype("float") / 255.0
 image = img_to_array(image)
 image = np.expand_dims(image, axis=0)
