@@ -99,11 +99,7 @@ aug = ImageDataGenerator(
 
 print('[INFO] compiling model...')
 model = LeNet.build(
-<<<<<<< HEAD
     width=IMG_SIZE, height=IMG_SIZE, depth=3, classes=4
-=======
-    width=28, height=28, depth=3, classes=4
->>>>>>> f116f4ebc34d99a4b39bf2dd3c44e850f469ee5e
 )
 opt = Adam(lr=INIT_LR, decay=INIT_LR / EPOCHS)
 model.compile(
