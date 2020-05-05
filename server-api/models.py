@@ -1,6 +1,7 @@
 import datetime
 
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import relationship
 
 db = SQLAlchemy()
 
@@ -17,6 +18,7 @@ class SensorData(db.Model):
         db.DateTime(timezone=True),
         default=datetime.datetime.utcnow
     )
+    plant=db.relationship('Plant')
 
     def __init__(
         self, plant_id, temp, humidity, moisture,
@@ -53,6 +55,8 @@ class Plant(db.Model):
     name = db.Column(db.String)
     type_id = db.Column(db.Integer, db.ForeignKey('plant_type.id'))
     date_added = db.Column(db.DateTime, default=datetime.datetime.utcnow) 
+    plant_type=db.relationship('PlantType')
+
 
     def __init__(self, name, type_id):
         self.name = name
