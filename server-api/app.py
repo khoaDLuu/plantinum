@@ -16,7 +16,6 @@ def hello():
 
 @app.route('/plants/<int:type_id>/plant', methods=['GET'])
 def fetch_plant(type_id):
-    
     latest_ss_plant = (
         db.session.query(Plant)
         .filter_by(type_id=type_id)
@@ -39,12 +38,13 @@ def fetch_plant_list(type_id):
     )
 
     list_plant = []
-    for plant in plants :
-        list_plant.append({'date_added' : f'{plant.date_added}'
-        ,'name' : f'{plant.name}'})
+    for plant in plants:
+        list_plant.append({
+            'date_added': f'{plant.date_added}',
+            'name' : f'{plant.name}'
+        })
 
-    return jsonify({'list_plant':list_plant})
-
+    return jsonify({'list_plant': list_plant})
 
 
 @app.route('/plants/<int:type_id>/plant', methods=['POST'])
@@ -55,16 +55,14 @@ def add_new_plant(type_id):
         ss_data = Plant(
             name= data['plantName'],
             type_id=type_id,
-           
-            )
+        )
         db.session.add(ss_data)
         db.session.commit()
         return {
-            "message": (f" plant with id {ss_data.type_id}"
+            "message": (f"plant with id {ss_data.type_id}"
                         "has been inserted successfully")}
     else :
         return {"error": "The request payload is not in JSON format"}
-
 
 
 @app.route('/plants/<int:plant_id>/sensor_data', methods=['GET'])
@@ -75,12 +73,16 @@ def fetch_data_list(plant_id):
     .all())
 
     list_data = []
-    for data in data_plant :
-        list_data.append({'temperature' : f'{data.temp}','humidity' : f'{data.humidity}'
-        ,'moisture' : f'{data.moisture}','lightIntensity' : f'{data.light_intensity}','imgurl' : f'{data.img_url}'})
+    for data in data_plant:
+        list_data.append({
+            'temperature': f'{data.temp}',
+            'humidity': f'{data.humidity}',
+            'moisture': f'{data.moisture}',
+            'light_intensity': f'{data.light_intensity}',
+            'img_url' : f'{data.img_url}'
+        })
 
-    return jsonify({'list_data':list_data})
-
+    return jsonify({'list_data': list_data})
 
 
 @app.route('/plants/<int:plant_id>/sensor_data', methods=['POST'])
@@ -89,12 +91,12 @@ def receive_sensor_data(plant_id):
         data = request.get_json()
         data1 = data['data']
         ss_data = SensorData(
-            plant_id= plant_id ,
+            plant_id=plant_id,
             temp=data1['temperature'],
             humidity=data1['humidity'],
             moisture=data1['moisture'],
-            light_intensity=data1['lightIntensity'],
-            img_url=data1['imgurl']
+            light_intensity=data1['light_intensity'],
+            img_url=data1['img_url']
         )
         db.session.add(ss_data)
         db.session.commit()
@@ -105,7 +107,6 @@ def receive_sensor_data(plant_id):
         }
     else:
         return {"error": "The request payload is not in JSON format"}
-
 
 
 @app.route('/plants/<int:plant_id>/sensor_data/last', methods=['GET'])
