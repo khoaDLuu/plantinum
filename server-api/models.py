@@ -5,6 +5,7 @@ from sqlalchemy.orm import relationship
 
 db = SQLAlchemy()
 
+
 class SensorData(db.Model):
     __tablename__ = 'sensor_data'
     id = db.Column(db.Integer, primary_key=True)
@@ -18,7 +19,7 @@ class SensorData(db.Model):
         db.DateTime(timezone=True),
         default=datetime.datetime.utcnow
     )
-    plant=db.relationship('Plant')
+    plant = db.relationship('Plant')
 
     def __init__(
         self, plant_id, temp, humidity, moisture,
@@ -32,8 +33,16 @@ class SensorData(db.Model):
         self.img_url = img_url
 
     def __repr__(self):
-        return "<SensorData(plant_id='{}', temp='{}', humidity='{}', moisture='{}', light_intensity={},img_url='{}', time_recorded='{}')>"\
-                .format(self.plant_id, self.temp, self.humidity, self.moisture, self.light_intensity, self.img_url, self.time_recorded)
+        return (
+            f"<SensorData(plant_id={self.plant_id}, "
+            f"temp={self.temp}, "
+            f"humidity={self.humidity}, "
+            f"moisture={self.moisture}, "
+            f"light_intensity={self.light_intensity}, "
+            f"img_url='{self.img_url}', "
+            f"time_recorded={self.time_recorded})>"
+        )
+
 
 class PlantType(db.Model):
     __tablename__ = 'plant_type'
@@ -46,8 +55,11 @@ class PlantType(db.Model):
         self.water_requirement = water_requirement
 
     def __repr__(self):
-        return "<PlantType(name='{}', water_requirement='{}')>"\
-                .format(self.name, self.water_requirement)
+        return (
+            f"<PlantType(name='{self.name}', "
+            f"water_requirement={self.water_requirement})>"
+        )
+
 
 class Plant(db.Model):
     __tablename__ = 'plant'
@@ -55,13 +67,15 @@ class Plant(db.Model):
     name = db.Column(db.String)
     type_id = db.Column(db.Integer, db.ForeignKey('plant_type.id'))
     date_added = db.Column(db.DateTime, default=datetime.datetime.utcnow) 
-    plant_type=db.relationship('PlantType')
-
+    plant_type = db.relationship('PlantType')
 
     def __init__(self, name, type_id):
         self.name = name
         self.type_id = type_id
 
     def __repr__(self):
-        return "<Plant(name='{}', type_id='{}', date_added='{}')>"\
-                .format(self.name, self.type_id, self.date_added)
+        return (
+            f"<Plant(name='{self.name}', "
+            f"type_id={self.type_id}, "
+            f"date_added={self.date_added})>"
+        )
