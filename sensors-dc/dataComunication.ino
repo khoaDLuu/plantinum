@@ -15,31 +15,28 @@ const int SWITCH_ON = 120;
 DHT dht(DHT11_PIN, DHT_TYPE);
 Servo myServo;
 
-
 void setup() {
   Serial.begin(9600);
   dht.begin();
   myServo.attach(SERVO_PIN);
-  myServo.write(SWITCH_ON);
+  myServo.write(SWITCH_OFF);
 }
 
 void loop() {
 //  int chk = DHT.read11(DHT11_PIN);
-  float t = dht.readTemperature();
-  float h = dht.readHumidity();
+  float temp = dht.readTemperature();
+  float humi = dht.readHumidity();
   int light = analogRead(LDR_PIN);
-  int moisture = analogRead(A0);
+  int mois = analogRead(A0);
   
   // print out the value you read:
   
   if(!(isnan(t)) && !(isnan(h))) {
-    Serial.print("Temperature = ");
-    Serial.println(t);
-    Serial.print("Humidity = ");
-    Serial.println(h);
-    Serial.print("Light intensity = ");
+    
+    Serial.println(temp);
+    Serial.println(humi);
     Serial.println(light);
-    Serial.println(moisture);
+    Serial.println(mois);
   }
   else {
     Serial.print("Error... t = ");
@@ -55,5 +52,5 @@ void loop() {
     myServo.write(SWITCH_OFF);
   }
   
-  delay(1000);
+  delay(3000);
 }
