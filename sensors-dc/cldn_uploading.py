@@ -31,4 +31,3 @@ def upload_to_cldn(img):
         # print(f'[INFO] error uploading {img_path}...skipping')  # use logging instead
         # raise Exception("Error uploading image...")
         raise
-
