@@ -1,4 +1,3 @@
-
 const int MS_PIN = A0;
 
 void setup() {

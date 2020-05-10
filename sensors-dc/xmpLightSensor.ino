@@ -1,4 +1,3 @@
-
 const int LDR_PIN = A5;
 
 void setup () {
