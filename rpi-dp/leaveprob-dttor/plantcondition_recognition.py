@@ -9,7 +9,7 @@ import cv2
 import time
 import picamera
 
-def planttp_rec(image, model_path):
+def plantcond_rec(image, model_path):
     IMG_SIZE = 64
     image = cv2.resize(image, (IMG_SIZE, IMG_SIZE))
     image = image.astype("float") / 255.0
