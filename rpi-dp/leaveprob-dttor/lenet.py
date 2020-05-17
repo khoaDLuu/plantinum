@@ -35,3 +35,5 @@ class LeNet:
         model.add(Activation('softmax'))
 
         return model
+
+    
