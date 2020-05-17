@@ -1,6 +1,5 @@
 # network training
-
-# To train the network from terminal, make sure you are at rpi-dp/planttp-clfier/, if not cd there and run:
+# To train the network from terminal, make sure you are at rpi-dp/leaveprob-dttor/, if not cd there and run:
 # python network_training.py --dataset dataset --model plantcondition.model
 
 import os
@@ -39,7 +38,7 @@ ap.add_argument(
 args = vars(ap.parse_args())
 
 # Set variables, initializing ...
-EPOCHS = 25
+EPOCHS = 10
 INIT_LR = 1e-3
 BS = 32
 IMG_SIZE = 64
@@ -99,7 +98,7 @@ model = LeNet.build(
 )
 opt = Adam(lr=INIT_LR, decay=INIT_LR / EPOCHS)
 model.compile(
-    loss='categorical_crossentropy',
+    loss='binary_crossentropy',
     optimizer=opt,
     metrics=['accuracy']
 )
