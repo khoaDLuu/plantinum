@@ -1,6 +1,5 @@
 # network testing
-# based on this article on pyimagesearch
-# https://www.pyimagesearch.com/2017/12/11/image-classification-with-keras-and-deep-learning/
+
 
 # To test the network from terminal, make sure you are at rpi-dp/planttp-clfier/, if not cd there and run:
 # python network_testing.py --model planttype.model --image test/test.jpg
