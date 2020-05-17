@@ -25,6 +25,4 @@ def planttp_rec(image, model_path):
 
     (label, proba) = max(pred_dict, key=lambda item: item[1])
     return (label, proba)
-
-
-
+    
