@@ -1,5 +1,6 @@
 import datetime
 
+from passlib.apps import custom_app_context as pwd_context
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship
 
@@ -78,4 +79,37 @@ class Plant(db.Model):
             f"<Plant(name='{self.name}', "
             f"type_id={self.type_id}, "
             f"date_added={self.date_added})>"
+        )
+
+
+class User(db.Model):
+    types = {
+        'admin': 0,
+        'regular': 1,
+        'machine': 2,
+    }
+    __tablename__ = 'user'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(32), index=True)
+    password_hash = db.Column(db.String(128))
+    usertype = db.Column(db.Integer)
+    time_created = db.Column(
+        db.DateTime(timezone=True),
+        default=datetime.datetime.utcnow
+    )
+
+    def __init__(self, username, usertype):
+        self.username = username
+        self.usertype = usertype
+
+    def hash_password(self, password):
+        self.password_hash = pwd_context.encrypt(password)
+
+    def verify_password(self, password):
+        return pwd_context.verify(password, self.password_hash)
+
+    def __repr__(self):
+        return (
+            f"<User(username={self.username}, "
+            f"usertype={self.usertype}>"
         )
