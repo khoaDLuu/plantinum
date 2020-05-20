@@ -8,6 +8,8 @@ class Config:
     CSRF_ENABLED = True
     SECRET_KEY = os.environ['APP_SECRET_KEY']
     SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+    ADMIN_USERNAME = os.environ['ADMIN_USERNAME']
+    ADMIN_PASSWORD = os.environ['ADMIN_PASSWORD']
 
 
 class ProductionConfig(Config):

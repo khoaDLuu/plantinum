@@ -11,6 +11,21 @@ db.init_app(app)
 auth = HTTPBasicAuth()
 
 
+@app.before_first_request
+def init_admin_account():
+    admin = (
+        db.session
+        .query(User)
+        .filter_by(username=app.config['ADMIN_USERNAME'])
+        .first()
+    )
+    if admin is None:
+        admin = User(username=app.config['ADMIN_USERNAME'], role='admin')
+        admin.hash_password(app.config['ADMIN_PASSWORD'])
+        db.session.add(admin)
+        db.session.commit()
+
+
 @auth.get_user_roles
 def get_roles(auth):
     # TODO reduce the number of db queries
