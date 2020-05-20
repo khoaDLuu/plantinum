@@ -99,14 +99,28 @@ def retrieve_user(username):
     user = db.session.query(User).filter_by(username=username).first()
     if not user:
         abort(400)
-    return jsonify({'id': user.id, 'username': user.username})
+    return jsonify({
+        'id': user.id,
+        'username': user.username,
+        'role': user.role
+    })
 
 
 @app.route('/users', methods=['GET'])
 @auth.login_required(role='admin')
 def retrieve_user_list():
-    # TODO
-    pass
+    offset = request.args.get('offset', 0)
+    limit = request.args.get('limit', 5)
+    user_list = (
+        db.session.query(User)
+        .order_by(User.id.asc())
+        .offset(offset)
+        .limit(limit)
+        .all()
+    )
+    users = [{'id': user.id, 'username': user.username, 'role': user.role}
+             for user in user_list]
+    return jsonify(users)
 
 
 @app.route('/token', methods=['GET'])
