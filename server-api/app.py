@@ -111,8 +111,17 @@ def retrieve_user(username):
 def retrieve_user_list():
     offset = request.args.get('offset', 0)
     limit = request.args.get('limit', 5)
+    role = request.args.get('role', '')
+    
+    role_code = (next(
+        (tcode for tcode, tname in User.types.items() if tname == role), None
+    ),)
+    if None in role_code:
+        role_code = tuple(User.types.keys())
+
     user_list = (
         db.session.query(User)
+        .filter(User.usertype.in_(role_code))
         .order_by(User.id.asc())
         .offset(offset)
         .limit(limit)
