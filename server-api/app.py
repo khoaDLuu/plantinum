@@ -166,9 +166,9 @@ def fetch_plant_list():
     else:
         type_names = (type_name,)
 
-    plants = (
-        db.session.query(Plant)
-        .join(PlantType)
+    results = (
+        db.session.query(Plant, PlantType)
+        .filter(Plant.type_id == PlantType.id)
         .filter(PlantType.name in type_names)
         .order_by(Plant.id.desc())
         .all()
@@ -178,10 +178,10 @@ def fetch_plant_list():
         {
             'id': plant.id,
             'name': plant.name,
-            'type': plant.plant_type[0].name,
+            'type': plant_type.name,
             'date_added': plant.date_added
         }
-        for plant in plants
+        for plant, plant_type in results
     ]
 
     return jsonify(plant_list)
