@@ -1,6 +1,5 @@
 # network training
-# based on this article on pyimagesearch
-# https://www.pyimagesearch.com/2017/12/11/image-classification-with-keras-and-deep-learning/
+
 
 # To train the network from terminal, make sure you are at rpi-dp/planttp-clfier/, if not cd there and run:
 # python network_training.py --dataset dataset --model planttype.model
@@ -53,7 +52,8 @@ label_codes = {
     'succulent': 0,
     'palmplant': 1,
     'flower': 2,
-    'foliageplant': 3
+    'foliageplant': 3,
+    'unknown': 4
 }
 
 # find all image paths (in all dir levels)
@@ -84,8 +84,8 @@ labels = np.array(labels)
     random_state=35
 )
 
-trainL = to_categorical(trainL, num_classes=4)
-testL = to_categorical(testL, num_classes=4)
+trainL = to_categorical(trainL, num_classes=5)
+testL = to_categorical(testL, num_classes=5)
 
 aug = ImageDataGenerator(
     rotation_range=30,
@@ -99,7 +99,7 @@ aug = ImageDataGenerator(
 
 print('[INFO] compiling model...')
 model = LeNet.build(
-    width=IMG_SIZE, height=IMG_SIZE, depth=3, classes=4
+    width=IMG_SIZE, height=IMG_SIZE, depth=3, classes=5
 )
 opt = Adam(lr=INIT_LR, decay=INIT_LR / EPOCHS)
 model.compile(
