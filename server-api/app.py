@@ -56,6 +56,9 @@ def hello():
 @app.route('/users', methods=['POST'])
 @auth.login_required(role='admin')
 def add_user():
+    # TODO implement JSON validation with decorators
+    # TODO implement logging with decorators
+
     username = request.json.get('username')
     password = request.json.get('password')
     role = request.json.get('role')
@@ -139,18 +142,18 @@ def make_auth_token():
     return jsonify({'token': token.decode('ascii'), 'duration': 720})
 
 
-@app.route('/plants/<int:type_id>', methods=['GET'])
+@app.route('/plants/<int:plant_id>', methods=['GET'])
 @auth.login_required
-def fetch_plant(type_id):
-    latest_plant = (
+def fetch_plant(plant_id):
+    plant = (
         db.session.query(Plant)
-        .filter_by(type_id=type_id)
-        .order_by(Plant.id.desc())
+        .filter_by(id=plant_id)
         .first()
     )
     return jsonify({
-        "name": latest_plant.name,
-        "date_added": latest_plant.date_added
+        "id": plant.id
+        "name": plant.name,
+        "date_added": plant.date_added
     })
 
 
@@ -182,16 +185,22 @@ def add_new_plant():
     if request.is_json:
         plant_data = request.get_json()
 
-        ss_data = Plant(
+        new_plant = Plant(
             name= plant_data['name'],
             type_id=plant_data['type_id'],
         )
-        db.session.add(ss_data)
+        db.session.add(new_plant)
         db.session.commit()
-        return {
-            "message": (f"Plant with id {ss_data.type_id}"
-                        " has been inserted successfully")}
-    else :
+        return (
+            jsonify({'plant_id': new_plant.id}),
+            201,
+            {'Location': url_for(
+                'fetch_plant',
+                plant_id=new_plant.id,
+                _external=True
+            )}
+        )
+    else:
         return {
             "error": ("The request payload is not in JSON format"
                       " or the data is not complete")
