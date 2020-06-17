@@ -180,14 +180,12 @@ def fetch_plant_list():
 @app.route('/plants', methods=['POST'])
 @auth.login_required(role=['admin', 'machine'])
 def add_new_plant():
-    # TODO Write Type retrieving functionality
-
     if request.is_json:
-        plant_data = request.get_json()
+        plant_info = request.get_json()
 
         new_plant = Plant(
-            name= plant_data['name'],
-            type_id=plant_data['type_id'],
+            name= plant_info['name'],
+            type_id=plant_info['type_id'],
         )
         db.session.add(new_plant)
         db.session.commit()
