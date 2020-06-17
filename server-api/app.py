@@ -151,7 +151,7 @@ def fetch_plant(plant_id):
         .first()
     )
     return jsonify({
-        "id": plant.id
+        "id": plant.id,
         "name": plant.name,
         "date_added": plant.date_added
     })
@@ -162,7 +162,7 @@ def fetch_plant(plant_id):
 def fetch_plant_list():
     plants = (
         db.session.query(Plant)
-        .filter_by(type_id=type_id)
+        # .filter_by(type_id=type_id)
         .order_by(Plant.id.desc())
         .all()
     )
