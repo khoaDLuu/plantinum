@@ -1,4 +1,5 @@
 # network testing
+
 # based on this article on pyimagesearch
 # https://www.pyimagesearch.com/2017/12/11/image-classification-with-keras-and-deep-learning/
 
@@ -39,7 +40,7 @@ model = load_model(args["model"])
 
 prediction = model.predict(image)[0]
 
-labels = ('problematicplant', 'goodplant')
+labels = ('problematicplant', 'goodplant','unknown')
 pred_dict = list(zip(labels, tuple(prediction)))
 
 (label, proba) = max(pred_dict, key=lambda item: item[1])

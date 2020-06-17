@@ -2,7 +2,7 @@ import os
 
 from flask import Flask, request, jsonify, g, url_for, abort
 from flask_httpauth import HTTPBasicAuth
-from models import db, Plant, SensorData, User
+from models import db, PlantType, Plant, SensorData, User
 
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
@@ -116,15 +116,15 @@ def retrieve_user_list():
     limit = request.args.get('limit', 5)
     role = request.args.get('role', '')
     
-    role_code = (next(
+    role_codes = (next(
         (tcode for tcode, tname in User.types.items() if tname == role), None
     ),)
-    if None in role_code:
-        role_code = tuple(User.types.keys())
+    if None in role_codes:
+        role_codes = tuple(User.types.keys())
 
     user_list = (
         db.session.query(User)
-        .filter(User.usertype.in_(role_code))
+        .filter(User.usertype.in_(role_codes))
         .order_by(User.id.asc())
         .offset(offset)
         .limit(limit)
@@ -151,7 +151,7 @@ def fetch_plant(plant_id):
         .first()
     )
     return jsonify({
-        "id": plant.id
+        "id": plant.id,
         "name": plant.name,
         "date_added": plant.date_added
     })
@@ -160,19 +160,37 @@ def fetch_plant(plant_id):
 @app.route('/plants', methods=['GET'])
 @auth.login_required
 def fetch_plant_list():
-    plants = (
-        db.session.query(Plant)
-        .filter_by(type_id=type_id)
-        .order_by(Plant.id.desc())
-        .all()
-    )
+    type_name = request.args.get('type', 'all')
+    
+    # FIXME bug in .filter(PlantType.name in type_names)
+    if type_name == 'all':
+        # type_names = 'flower', 'succulent', 'foliageplant', 'palmplant'
+        results = (
+            db.session.query(Plant, PlantType)
+            .filter(Plant.type_id == PlantType.id)
+            # .filter(PlantType.name in type_names)
+            .order_by(Plant.id.desc())
+            .all()
+        )
+    else:
+        # type_names = (type_name,)
+        results = (
+            db.session.query(Plant, PlantType)
+            .filter(Plant.type_id == PlantType.id)
+            .filter(PlantType.name == type_name)
+            .order_by(Plant.id.desc())
+            .all()
+        )
 
-    plant_list = []
-    for plant in plants:
-        plant_list.append({
-            'date_added': f'{plant.date_added}',
-            'name' : f'{plant.name}'
-        })
+    plant_list = [
+        {
+            'id': plant.id,
+            'name': plant.name,
+            'type': plant_type.name,
+            'date_added': plant.date_added
+        }
+        for plant, plant_type in results
+    ]
 
     return jsonify(plant_list)
 
@@ -180,14 +198,21 @@ def fetch_plant_list():
 @app.route('/plants', methods=['POST'])
 @auth.login_required(role=['admin', 'machine'])
 def add_new_plant():
-    # TODO Write Type retrieving functionality
-
     if request.is_json:
-        plant_data = request.get_json()
+        plant_info = request.get_json()
+
+        # NOTE HARDCODED DATA
+        type_codes = {
+            'flower': 1,
+            'succulent': 2,
+            'foliageplant': 3,
+            'palmplant': 4
+        }
+        type_id = type_codes[plant_info['type']]
 
         new_plant = Plant(
-            name= plant_data['name'],
-            type_id=plant_data['type_id'],
+            name= plant_info['name'],
+            type_id=type_id,
         )
         db.session.add(new_plant)
         db.session.commit()
@@ -260,7 +285,7 @@ def receive_sensor_data(plant_id):
         )
 
 
-@app.route('/plants/<int:plant_id>/sensor_data/last', methods=['GET'])
+@app.route('/plants/<int:plant_id>/sensor_data/latest', methods=['GET'])
 @auth.login_required
 def retrieve_latest(plant_id):
     # TODO write error handling
