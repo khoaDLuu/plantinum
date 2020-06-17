@@ -2,7 +2,7 @@ import os
 
 from flask import Flask, request, jsonify, g, url_for, abort
 from flask_httpauth import HTTPBasicAuth
-from models import db, Plant, SensorData, User
+from models import db, PlantType, Plant, SensorData, User
 
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
