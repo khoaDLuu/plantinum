@@ -116,15 +116,15 @@ def retrieve_user_list():
     limit = request.args.get('limit', 5)
     role = request.args.get('role', '')
     
-    role_code = (next(
+    role_codes = (next(
         (tcode for tcode, tname in User.types.items() if tname == role), None
     ),)
-    if None in role_code:
-        role_code = tuple(User.types.keys())
+    if None in role_codes:
+        role_codes = tuple(User.types.keys())
 
     user_list = (
         db.session.query(User)
-        .filter(User.usertype.in_(role_code))
+        .filter(User.usertype.in_(role_codes))
         .order_by(User.id.asc())
         .offset(offset)
         .limit(limit)
@@ -160,19 +160,30 @@ def fetch_plant(plant_id):
 @app.route('/plants', methods=['GET'])
 @auth.login_required
 def fetch_plant_list():
+    type_name = request.args.get('type', 'all')
+    if type_name == 'all':
+        type_names = 'flower', 'succulent', 'foliageplant', 'palmplant'
+    else:
+        type_names = (type_name,)
+
     plants = (
         db.session.query(Plant)
-        # .filter_by(type_id=type_id)
+        .join(PlantType)
+        .filter(Plant.type_id == PlantType.id)
+        .filter_by(PlantType.name.in_(type_names))
         .order_by(Plant.id.desc())
         .all()
     )
 
-    plant_list = []
-    for plant in plants:
-        plant_list.append({
-            'date_added': f'{plant.date_added}',
-            'name' : f'{plant.name}'
-        })
+    plant_list = [
+        {
+            'id': plant.id,
+            'name': plant.name,
+            'type': plant.plant_type[0].name,
+            'date_added': plant.date_added
+        }
+        for plant in plants
+    ]
 
     return jsonify(plant_list)
 
@@ -183,9 +194,18 @@ def add_new_plant():
     if request.is_json:
         plant_info = request.get_json()
 
+        # NOTE HARDCODED DATA
+        type_codes = {
+            'flower': 1,
+            'succulent': 2,
+            'foliageplant': 3,
+            'palmplant': 4
+        }
+        type_id = type_codes[plant_info['type']]
+
         new_plant = Plant(
             name= plant_info['name'],
-            type_id=plant_info['type_id'],
+            type_id=type_id,
         )
         db.session.add(new_plant)
         db.session.commit()
@@ -258,7 +278,7 @@ def receive_sensor_data(plant_id):
         )
 
 
-@app.route('/plants/<int:plant_id>/sensor_data/last', methods=['GET'])
+@app.route('/plants/<int:plant_id>/sensor_data/latest', methods=['GET'])
 @auth.login_required
 def retrieve_latest(plant_id):
     # TODO write error handling
