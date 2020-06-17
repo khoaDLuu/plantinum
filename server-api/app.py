@@ -169,7 +169,6 @@ def fetch_plant_list():
     plants = (
         db.session.query(Plant)
         .join(PlantType)
-        .filter(Plant.type_id == PlantType.id)
         .filter_by(PlantType.name.in_(type_names))
         .order_by(Plant.id.desc())
         .all()
