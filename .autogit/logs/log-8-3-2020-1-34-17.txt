@@ -1,0 +1,16 @@
+-------------------- Auto-Git Log --------------------
+		Wed Apr 08 2020 01:34:17 GMT+0700 (Giờ Đông Dương)
+------------------------------------------------------
+
+Modified files:
+* rpi-dp/planttp-clfier/requirements.txt
+
+
+Created files:
+* .autogit/logs/log-8-3-2020-0-57-22.txt
+
+
+Deleted files:
+
+
+Renamed files:

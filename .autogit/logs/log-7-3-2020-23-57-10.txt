@@ -1,0 +1,15 @@
+-------------------- Auto-Git Log --------------------
+		Tue Apr 07 2020 23:57:10 GMT+0700 (Giờ Đông Dương)
+------------------------------------------------------
+
+Modified files:
+
+
+Created files:
+* .autogit/logs/log-5-3-2020-21-29-37.txt
+
+
+Deleted files:
+
+
+Renamed files:

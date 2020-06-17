@@ -1,5 +1,10 @@
 # This project's ignored files
 server-api/sampledata.json
+*.model
+
+# git
+.autogit/
+.autogit/logs/
 
 # Editor files
 .vscode
