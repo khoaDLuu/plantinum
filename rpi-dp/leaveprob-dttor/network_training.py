@@ -41,7 +41,7 @@ args = vars(ap.parse_args())
 # Set variables, initializing ...
 EPOCHS = 25
 INIT_LR = 1e-3
-BS = 32
+BS = 10
 IMG_SIZE = 64
 
 print('[INFO] loading images...')
@@ -49,7 +49,8 @@ data = []
 labels = []
 label_codes = {
     'problematicplant': 0,
-    'goodplant': 1
+    'goodplant': 1,
+    'unknown': 2
 }
 
 # find all image paths (in all dir levels)
@@ -80,8 +81,8 @@ labels = np.array(labels)
     random_state=35
 )
 
-trainL = to_categorical(trainL, num_classes=2)
-testL = to_categorical(testL, num_classes=2)
+trainL = to_categorical(trainL, num_classes=3)
+testL = to_categorical(testL, num_classes=3)
 
 aug = ImageDataGenerator(
     rotation_range=30,
@@ -95,7 +96,7 @@ aug = ImageDataGenerator(
 
 print('[INFO] compiling model...')
 model = LeNet.build(
-    width=IMG_SIZE, height=IMG_SIZE, depth=3, classes=2
+    width=IMG_SIZE, height=IMG_SIZE, depth=3, classes=3
 )
 opt = Adam(lr=INIT_LR, decay=INIT_LR / EPOCHS)
 model.compile(

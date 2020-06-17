@@ -1,6 +1,5 @@
 # network testing
-# based on this article on pyimagesearch
-# https://www.pyimagesearch.com/2017/12/11/image-classification-with-keras-and-deep-learning/
+
 
 # To test the network from terminal, make sure you are at rpi-dp/planttp-clfier/, if not cd there and run:
 # python network_testing.py --model planttype.model --image test/test.jpg
@@ -39,7 +38,7 @@ model = load_model(args["model"])
 
 prediction = model.predict(image)[0]
 
-labels = ('succulent', 'palmplant', 'flower', 'foliageplant')
+labels = ('succulent', 'palmplant', 'flower', 'foliageplant','unknown')
 pred_dict = list(zip(labels, tuple(prediction)))
 
 (label, proba) = max(pred_dict, key=lambda item: item[1])
@@ -55,3 +54,4 @@ cv2.putText(
 print(list(pred_dict))
 cv2.imshow('Output image', output)
 cv2.waitKey(0)
+
