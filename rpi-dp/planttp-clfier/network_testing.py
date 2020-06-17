@@ -38,7 +38,7 @@ model = load_model(args["model"])
 
 prediction = model.predict(image)[0]
 
-labels = ('succulent', 'palmplant', 'flower', 'foliageplant')
+labels = ('succulent', 'palmplant', 'flower', 'foliageplant','unknown')
 pred_dict = list(zip(labels, tuple(prediction)))
 
 (label, proba) = max(pred_dict, key=lambda item: item[1])
