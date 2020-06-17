@@ -1,4 +1,5 @@
 # network training
+
 # To train the network from terminal, make sure you are at rpi-dp/leaveprob-dttor/, if not cd there and run:
 # python network_training.py --dataset dataset --model plantcondition.model
 

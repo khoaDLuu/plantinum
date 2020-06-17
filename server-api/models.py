@@ -1,8 +1,15 @@
+import os
 import datetime
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship
+from passlib.apps import custom_app_context as pwd_context
+from itsdangerous import (
+    TimedJSONWebSignatureSerializer as Serializer,
+    BadSignature, SignatureExpired
+)
 
+SECRET_KEY = os.environ['APP_SECRET_KEY']
 db = SQLAlchemy()
 
 
@@ -78,4 +85,67 @@ class Plant(db.Model):
             f"<Plant(name='{self.name}', "
             f"type_id={self.type_id}, "
             f"date_added={self.date_added})>"
+        )
+
+
+class User(db.Model):
+    types = {
+        0: 'admin',
+        1: 'regular',
+        2: 'machine',
+    }
+    __tablename__ = 'api_user'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(32), index=True)
+    password_hash = db.Column(db.String(128))
+    usertype = db.Column(db.Integer)
+    time_created = db.Column(
+        db.DateTime(timezone=True),
+        default=datetime.datetime.utcnow
+    )
+
+    def __init__(self, username, role):
+        self.username = username
+        self.role = role
+
+    @property
+    def role(self):
+        return User.types[self.usertype]
+
+    @role.setter
+    def role(self, value):
+        self.usertype = [key for (key, val) in User.types.items()
+                         if val == value][0]
+
+    def hash_password(self, password):
+        self.password_hash = pwd_context.encrypt(password)
+
+    def verify_password(self, password):
+        return pwd_context.verify(password, self.password_hash)
+
+    def generate_auth_token(self, expiration=600):
+        s = Serializer(SECRET_KEY, expires_in=expiration)
+        return s.dumps({'username': self.username})
+
+    @staticmethod
+    def verify_auth_token(token):
+        s = Serializer(SECRET_KEY)
+        try:
+            data = s.loads(token)
+        except SignatureExpired:
+            return None
+        except BadSignature:
+            return None
+        user = (
+            db.session
+            .query(User)
+            .filter_by(username=data['username'])
+            .first()
+        )
+        return user
+
+    def __repr__(self):
+        return (
+            f"<User(username={self.username}, "
+            f"usertype={self.role}>"
         )
