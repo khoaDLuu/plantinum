@@ -161,18 +161,26 @@ def fetch_plant(plant_id):
 @auth.login_required
 def fetch_plant_list():
     type_name = request.args.get('type', 'all')
+    
+    # FIXME bug in .filter(PlantType.name in type_names)
     if type_name == 'all':
-        type_names = 'flower', 'succulent', 'foliageplant', 'palmplant'
+        # type_names = 'flower', 'succulent', 'foliageplant', 'palmplant'
+        results = (
+            db.session.query(Plant, PlantType)
+            .filter(Plant.type_id == PlantType.id)
+            # .filter(PlantType.name in type_names)
+            .order_by(Plant.id.desc())
+            .all()
+        )
     else:
-        type_names = (type_name,)
-
-    results = (
-        db.session.query(Plant, PlantType)
-        .filter(Plant.type_id == PlantType.id)
-        .filter(PlantType.name in type_names)
-        .order_by(Plant.id.desc())
-        .all()
-    )
+        # type_names = (type_name,)
+        results = (
+            db.session.query(Plant, PlantType)
+            .filter(Plant.type_id == PlantType.id)
+            .filter(PlantType.name == type_name)
+            .order_by(Plant.id.desc())
+            .all()
+        )
 
     plant_list = [
         {
