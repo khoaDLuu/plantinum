@@ -54,3 +54,4 @@ cv2.putText(
 print(list(pred_dict))
 cv2.imshow('Output image', output)
 cv2.waitKey(0)
+
