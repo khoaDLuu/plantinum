@@ -335,6 +335,10 @@ def fetch_plants_with_data():
             .order_by(SensorData.id.desc())
             .first()
         )
+
+        if latest_ss_data is None:
+            continue
+
         plants_with_data.append({
             'id': plant['id'],
             'name': plant['name'],
