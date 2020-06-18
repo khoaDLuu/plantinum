@@ -306,5 +306,49 @@ def retrieve_latest(plant_id):
     })
 
 
+@app.route('/plants_with_data', methods=['GET'])
+@auth.login_required
+def fetch_plants_with_data():
+    results = (
+        db.session.query(Plant, PlantType)
+        .filter(Plant.type_id == PlantType.id)
+        # .filter(PlantType.name in type_names)
+        .order_by(Plant.id.desc())
+        .all()
+    )
+
+    plant_list = [
+        {
+            'id': plant.id,
+            'name': plant.name,
+            'type': plant_type.name,
+            'date_added': plant.date_added
+        }
+        for plant, plant_type in results
+    ]
+
+    plants_with_data = []
+    for plant in plant_list:
+        latest_ss_data = (
+            db.session.query(SensorData)
+            .filter_by(plant_id=plant['id'])
+            .order_by(SensorData.id.desc())
+            .first()
+        )
+        plants_with_data.append({
+            'id': plant['id'],
+            'name': plant['name'],
+            'type': plant['type'],
+            'date_added': plant['date_added'],
+            "temperature": latest_ss_data.temp,
+            "humidity": latest_ss_data.humidity,
+            "moisture": latest_ss_data.moisture,
+            "light_intensity": latest_ss_data.light_intensity,
+            "img_url": latest_ss_data.img_url
+        })
+
+    return jsonify(plants_with_data)
+
+
 if __name__ == '__main__':
     app.run(debug=True)
