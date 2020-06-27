@@ -1,8 +1,8 @@
 import os
-import datetime
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship
+from sqlalchemy.sql import func
 from passlib.apps import custom_app_context as pwd_context
 from itsdangerous import (
     TimedJSONWebSignatureSerializer as Serializer,
@@ -13,7 +13,7 @@ SECRET_KEY = os.environ['APP_SECRET_KEY']
 db = SQLAlchemy()
 
 
-class SensorData(db.Model):
+class PlantData(db.Model):
     __tablename__ = 'sensor_data'
     id = db.Column(db.Integer, primary_key=True)
     plant_id = db.Column(db.Integer, db.ForeignKey('plant.id'))
@@ -22,15 +22,17 @@ class SensorData(db.Model):
     moisture = db.Column(db.Float)
     light_intensity = db.Column(db.Float)
     img_url = db.Column(db.String)
+    state = db.Column(db.String, nullable=True)  # TODO change data type
     time_recorded = db.Column(
         db.DateTime(timezone=True),
-        default=datetime.datetime.utcnow
-    )
+        server_default=func.now())
+    # Preferrably store time related data in UTC,
+    # and do timezone conversions when presenting data
     plant = db.relationship('Plant')
 
     def __init__(
         self, plant_id, temp, humidity, moisture,
-        light_intensity, img_url):
+        light_intensity, img_url, state):
         #
         self.plant_id = plant_id
         self.temp = temp
@@ -38,15 +40,17 @@ class SensorData(db.Model):
         self.moisture = moisture
         self.light_intensity = light_intensity
         self.img_url = img_url
+        self.state = state
 
     def __repr__(self):
         return (
-            f"<SensorData(plant_id={self.plant_id}, "
+            f"<PlantData(plant_id={self.plant_id}, "
             f"temp={self.temp}, "
             f"humidity={self.humidity}, "
             f"moisture={self.moisture}, "
             f"light_intensity={self.light_intensity}, "
             f"img_url='{self.img_url}', "
+            f"state='{self.state}', "
             f"time_recorded={self.time_recorded})>"
         )
 
@@ -73,7 +77,10 @@ class Plant(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
     type_id = db.Column(db.Integer, db.ForeignKey('plant_type.id'))
-    date_added = db.Column(db.DateTime, default=datetime.datetime.utcnow) 
+    date_added = db.Column(
+        db.DateTime(timezone=True),
+        server_default=func.now()
+    )
     plant_type = db.relationship('PlantType')
 
     def __init__(self, name, type_id):
@@ -101,7 +108,7 @@ class User(db.Model):
     usertype = db.Column(db.Integer)
     time_created = db.Column(
         db.DateTime(timezone=True),
-        default=datetime.datetime.utcnow
+        server_default=func.now()
     )
 
     def __init__(self, username, role):
