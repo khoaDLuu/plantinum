@@ -1,8 +1,8 @@
 import os
-import datetime
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship
+from sqlalchemy.sql import func
 from passlib.apps import custom_app_context as pwd_context
 from itsdangerous import (
     TimedJSONWebSignatureSerializer as Serializer,
@@ -24,8 +24,9 @@ class PlantData(db.Model):
     img_url = db.Column(db.String)
     time_recorded = db.Column(
         db.DateTime(timezone=True),
-        default=datetime.datetime.utcnow
-    )
+        server_default=func.now())
+    # Preferrably store time related data in UTC,
+    # and do timezone conversions when presenting data
     plant = db.relationship('Plant')
 
     def __init__(
@@ -73,7 +74,10 @@ class Plant(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
     type_id = db.Column(db.Integer, db.ForeignKey('plant_type.id'))
-    date_added = db.Column(db.DateTime, default=datetime.datetime.utcnow) 
+    date_added = db.Column(
+        db.DateTime(timezone=True),
+        server_default=func.now()
+    )
     plant_type = db.relationship('PlantType')
 
     def __init__(self, name, type_id):
@@ -101,7 +105,7 @@ class User(db.Model):
     usertype = db.Column(db.Integer)
     time_created = db.Column(
         db.DateTime(timezone=True),
-        default=datetime.datetime.utcnow
+        server_default=func.now()
     )
 
     def __init__(self, username, role):
