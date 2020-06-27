@@ -232,6 +232,7 @@ def add_new_plant():
         }
 
 
+# TODO change API endpoints: sensor_data to plant_data
 @app.route('/plants/<int:plant_id>/sensor_data', methods=['GET'])
 @auth.login_required
 def fetch_data_list(plant_id):
@@ -262,19 +263,20 @@ def fetch_data_list(plant_id):
 def receive_sensor_data(plant_id):
     if request.is_json:
         data = request.get_json()
-        ss_data = SensorData(
+        ss_data = PlantData(
             plant_id=plant_id,
-            temp=data['temperature'],
+            temp=data['temperature'],  # change `temp` to `temperature`
             humidity=data['humidity'],
             moisture=data['moisture'],
             light_intensity=data['light_intensity'],
-            img_url=data['img_url']
+            img_url=data['img_url'],
+            state=data['state']
         )
         db.session.add(ss_data)
         db.session.commit()
 
         return {
-            "message": (f"Sensor data of plant with id {ss_data.plant_id}"
+            "message": (f"Sensor data of plant with id {ss_data.plant_id} "
                         "has been inserted successfully")
         }
     else:
@@ -337,16 +339,26 @@ def fetch_plants_with_data():
             .order_by(PlantData.id.desc())
             .first()
         )
+
+        if latest_ss_data is None:
+            latest_plant_data = {}
+        else:
+            latest_plant_data = {
+                "temperature": latest_ss_data.temp,
+                "humidity": latest_ss_data.humidity,
+                "moisture": latest_ss_data.moisture,
+                "light_intensity": latest_ss_data.light_intensity,
+                "img_url": latest_ss_data.img_url,
+                "state": latest_ss_data.state,
+                "time_recorded": latest_ss_data.time_recorded
+            }
+
         plants_with_data.append({
             'id': plant['id'],
             'name': plant['name'],
             'type': plant['type'],
             'date_added': plant['date_added'],
-            "temperature": latest_ss_data.temp,
-            "humidity": latest_ss_data.humidity,
-            "moisture": latest_ss_data.moisture,
-            "light_intensity": latest_ss_data.light_intensity,
-            "img_url": latest_ss_data.img_url
+            'latest_data': latest_plant_data
         })
 
     return jsonify(plants_with_data)
