@@ -302,7 +302,9 @@ def retrieve_latest(plant_id):
         "humidity": latest_ss_data.humidity,
         "moisture": latest_ss_data.moisture,
         "light_intensity": latest_ss_data.light_intensity,
-        "img_url": latest_ss_data.img_url
+        "img_url": latest_ss_data.img_url,
+        "state": latest_ss_data.state,
+        "time_recorded": latest_ss_data.time_recorded
     })
 
 

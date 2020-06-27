@@ -22,6 +22,7 @@ class PlantData(db.Model):
     moisture = db.Column(db.Float)
     light_intensity = db.Column(db.Float)
     img_url = db.Column(db.String)
+    state = db.Column(db.String, nullable=True)  # TODO change data type
     time_recorded = db.Column(
         db.DateTime(timezone=True),
         server_default=func.now())
@@ -31,7 +32,7 @@ class PlantData(db.Model):
 
     def __init__(
         self, plant_id, temp, humidity, moisture,
-        light_intensity, img_url):
+        light_intensity, img_url, state):
         #
         self.plant_id = plant_id
         self.temp = temp
@@ -39,6 +40,7 @@ class PlantData(db.Model):
         self.moisture = moisture
         self.light_intensity = light_intensity
         self.img_url = img_url
+        self.state = state
 
     def __repr__(self):
         return (
@@ -48,6 +50,7 @@ class PlantData(db.Model):
             f"moisture={self.moisture}, "
             f"light_intensity={self.light_intensity}, "
             f"img_url='{self.img_url}', "
+            f"state='{self.state}', "
             f"time_recorded={self.time_recorded})>"
         )
 
