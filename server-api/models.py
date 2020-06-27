@@ -13,7 +13,7 @@ SECRET_KEY = os.environ['APP_SECRET_KEY']
 db = SQLAlchemy()
 
 
-class SensorData(db.Model):
+class PlantData(db.Model):
     __tablename__ = 'sensor_data'
     id = db.Column(db.Integer, primary_key=True)
     plant_id = db.Column(db.Integer, db.ForeignKey('plant.id'))
@@ -41,7 +41,7 @@ class SensorData(db.Model):
 
     def __repr__(self):
         return (
-            f"<SensorData(plant_id={self.plant_id}, "
+            f"<PlantData(plant_id={self.plant_id}, "
             f"temp={self.temp}, "
             f"humidity={self.humidity}, "
             f"moisture={self.moisture}, "

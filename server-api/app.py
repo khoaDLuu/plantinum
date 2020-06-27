@@ -2,7 +2,7 @@ import os
 
 from flask import Flask, request, jsonify, g, url_for, abort
 from flask_httpauth import HTTPBasicAuth
-from models import db, PlantType, Plant, SensorData, User
+from models import db, PlantType, Plant, PlantData, User
 
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
@@ -238,9 +238,9 @@ def fetch_data_list(plant_id):
     # TODO Implement query param to fetch a number of data rows
 
     data_plant = (
-        db.session.query(SensorData)
+        db.session.query(PlantData)
         .filter_by(plant_id=plant_id)
-        .order_by(SensorData.id.desc())
+        .order_by(PlantData.id.desc())
         .all()
     )
 
@@ -291,9 +291,9 @@ def retrieve_latest(plant_id):
     # TODO write error handling
 
     latest_ss_data = (
-        db.session.query(SensorData)
+        db.session.query(PlantData)
         .filter_by(plant_id=plant_id)
-        .order_by(SensorData.id.desc())
+        .order_by(PlantData.id.desc())
         .first()
     )
 
@@ -328,11 +328,11 @@ def fetch_plants_with_data():
     ]
 
     plants_with_data = []
-    for plant in plant_list:
+    for plant in plant_list:  #! TODO fix querying in loop
         latest_ss_data = (
-            db.session.query(SensorData)
+            db.session.query(PlantData)
             .filter_by(plant_id=plant['id'])
-            .order_by(SensorData.id.desc())
+            .order_by(PlantData.id.desc())
             .first()
         )
         plants_with_data.append({
