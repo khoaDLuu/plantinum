@@ -14,7 +14,7 @@ db = SQLAlchemy()
 
 
 class PlantData(db.Model):
-    __tablename__ = 'sensor_data'
+    __tablename__ = 'plant_data'
     id = db.Column(db.Integer, primary_key=True)
     plant_id = db.Column(db.Integer, db.ForeignKey('plant.id'))
     temp = db.Column(db.Float)
