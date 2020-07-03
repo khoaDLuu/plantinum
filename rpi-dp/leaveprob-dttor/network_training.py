@@ -41,16 +41,15 @@ args = vars(ap.parse_args())
 # Set variables, initializing ...
 EPOCHS = 25
 INIT_LR = 1e-3
-BS = 10
-IMG_SIZE = 64
+BS = 8
+IMG_SIZE = 32
 
 print('[INFO] loading images...')
 data = []
 labels = []
 label_codes = {
-    'problematicplant': 0,
-    'goodplant': 1,
-    'unknown': 2
+    'problematic': 0,
+    'good': 1
 }
 
 # find all image paths (in all dir levels)
