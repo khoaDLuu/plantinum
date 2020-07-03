@@ -1,8 +1,9 @@
-# network training
+# NETWORK TRAINING
+# Based on this article on pyimagesearch
+# https://www.pyimagesearch.com/2017/12/11/image-classification-with-keras-and-deep-learning/
 
-
-# To train the network from terminal, make sure you are at rpi-dp/planttp-clfier/, if not cd there and run:
-# python network_training.py --dataset dataset --model planttype.model
+# To train the network from terminal, make sure you are at rpi-dp/planttp-clfier/. If not, cd there and run:
+# python network_training.py --dataset dataset --model planttype.model --plot test/training_plot.png
 
 import os
 import argparse
@@ -117,7 +118,7 @@ H = model.fit_generator(
     verbose=1
 )
 
-print('[INFO] serializing network...')
+print('[INFO] Serializing network...')
 model.save(args['model'])
 
 plt.style.use('ggplot')
