@@ -15,6 +15,7 @@ from imutils import paths
 from keras.preprocessing.image import ImageDataGenerator
 from keras.optimizers import Adam
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
 from keras.preprocessing.image import img_to_array
 from keras.utils import to_categorical
 import matplotlib.pyplot as plt
@@ -85,6 +86,13 @@ labels = np.array(labels)
     random_state=35
 )
 
+(perf_testD, testD, perf_testL, testL) = train_test_split(
+    testD,
+    testL,
+    test_size=0.25,
+    random_state=35
+)
+
 trainL = to_categorical(trainL, num_classes=5)
 testL = to_categorical(testL, num_classes=5)
 
@@ -134,3 +142,8 @@ plt.ylabel("Loss/Accuracy")
 plt.legend(loc="lower left")
 plt.savefig(args["plot"])
 
+# Model's performance testing
+predP = model.predict(perf_testD)
+predL = [np.argmax(pred_proba) for pred_proba in predP]
+a = accuracy_score(predL, perf_testL)
+print('Accuracy is:', a)
