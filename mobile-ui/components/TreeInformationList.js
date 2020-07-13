@@ -11,8 +11,9 @@ import PercentageBar from '../components/PercentageBar';
 export default class TreeInformationList extends React.Component {
  
     render() {
-        const { temperature, humidity, moisture, lightIntensity  } = this.props;
-        return(
+        const [ TEMPERATURE, HUMIDITY, MOISTURE, LIGHT_INTENSITY ] = [ 50, 100, 1023, 1023 ];
+        const { temperature, humidity, moisture, lightIntensity } = this.props;
+        return (
         <View>
                 <View style={{marginBottom: 10}}>
                     <View style={styles.container}>
@@ -20,7 +21,9 @@ export default class TreeInformationList extends React.Component {
                         <Text style={styles.title}>Temperature</Text>
                     </View>
                     <PercentageBar 
-                        percent={temperature}
+                        param={temperature}
+                        percent={temperature / TEMPERATURE * 100}
+                        unit={'\'C'}
                     />
                 </View>
                 <View style={{marginBottom: 10}}>
@@ -29,7 +32,9 @@ export default class TreeInformationList extends React.Component {
                         <Text style={styles.title}>Humidity</Text>
                     </View>
                     <PercentageBar 
-                        percent={humidity}
+                        param={humidity / HUMIDITY * 100}
+                        percent={humidity / HUMIDITY * 100}
+                        unit={'%'}
                     />
                 </View>
                 <View style={{marginBottom: 10}}>
@@ -38,7 +43,9 @@ export default class TreeInformationList extends React.Component {
                         <Text style={styles.title}>Moisture</Text>
                     </View>
                     <PercentageBar 
-                        percent={moisture}
+                        param={100 - moisture / MOISTURE * 100}
+                        percent={100 - moisture / MOISTURE * 100}
+                        unit={'%'}
                     />
                 </View>
                 <View style={{marginBottom: 10}}>
@@ -46,8 +53,10 @@ export default class TreeInformationList extends React.Component {
                         <Image source={lightIntensityIcon} style={styles.icon} />
                         <Text style={styles.title}>Light intensity</Text>
                     </View>
-                    <PercentageBar 
-                        percent={lightIntensity}
+                    <PercentageBar
+                        param={lightIntensity / LIGHT_INTENSITY * 100} 
+                        percent={lightIntensity / LIGHT_INTENSITY * 100}
+                        unit={'%'}
                     />
                 </View>
         </View>);
