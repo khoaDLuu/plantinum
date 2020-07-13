@@ -53,14 +53,14 @@ export default class Trees extends React.Component {
       const username = await AsyncStorage.getItem("username");
       const password = await AsyncStorage.getItem("password");
       
-      const data = await axios.get('https://plantinum-stage.herokuapp.com/plants/1/sensor_data/last', {
+      const data = await axios.get('https://plantinum-stage.herokuapp.com/plants_with_data', {
         auth: {
           username: username,
           password: password
         }
       });
       this.setState({ 
-        trees: [data.data],
+        trees: data.data,
         dataLoaded: true
       });
 
@@ -72,19 +72,18 @@ export default class Trees extends React.Component {
     const { navigation } = this.props;
     const { trees, dataLoaded, loading } = this.state;
     return (
-      <View style={{height: "100%"}}>
-        {( dataLoaded && !loading ) ? 
+      <View 
+        style={
+          !dataLoaded ? {height: "100%"} : {height: "100%",backgroundColor: "#58B0AE"}}
+        >
+        {( dataLoaded ) ? 
           (<FlatList 
             data={trees}
             renderItem={({ item }) => 
             <TreeListItem tree={item}
-              onPress={() => navigation.navigate('Home2', {
-                treeName: item.name,
-                imageUrl: item.url,
-                temperature: item.temperature,
-                humidity: item.humidity,
-                moisture: item.moisture,
-                lightIntensity: item.lightIntensity
+              onPress={() => navigation.navigate('Info', {
+                type: item.type,
+                latest_data: item.latest_data
               })}
             />}
             keyExtractor={item => `${item.id}`}
@@ -103,6 +102,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     backgroundColor: "#58B0AE",
   },
+  
   loading: {
     height: "80%",
     flex: 1,
