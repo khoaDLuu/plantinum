@@ -5,6 +5,7 @@ server-api/sampledata.json
 # git
 .autogit/
 .autogit/logs/
+.autogit
 
 # Editor files
 .vscode

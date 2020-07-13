@@ -4,10 +4,12 @@ import { Text, View, StyleSheet } from 'react-native';
 export default class PercentageBar extends React.Component {
 
     render() {
+        
+        const { percent, unit, param } = this.props; 
         return (
             <View style={styles.bar}>
-                <View style={{backgroundColor: "#7CB777", height: "100%", borderRadius: 7, width: this.props.percent}}>
-                    <Text style={styles.percent}>{this.props.percent}</Text>
+                <View style={{backgroundColor: "#7CB777", height: "100%", borderRadius: 7, width: percent + "%"}}>
+                    <Text style={styles.percent}>{Math.ceil(param) + (unit ? unit : "")}</Text>
                 </View>
             </View>
         );
