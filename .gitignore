@@ -1,3 +1,16 @@
+# This project's ignored files
+server-api/sampledata.json
+*.model
+
+# git
+.autogit/
+.autogit/logs/
+.autogit
+
+# Editor files
+.vscode
+.vs/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
