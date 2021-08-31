@@ -14,9 +14,10 @@ Smart plant monitoring system
 ```
 git clone git@github.com:khoaDLuu/plantinum.git
 ```
-
 * Set up React Native app for [mobile app](./mobile-ui/README.md)
-
 * Set up Python for [API server](./server-api/README.md)
-
 * Set up [Arduino and Rasberry Pi](./sensors-dc/README.md) environments
+
+## References
+* [Tutorial of Image Recognition and RPi](https://www.pyimagesearch.com/2017/12/11/image-classification-with-keras-and-deep-learning/)
+* [How to install OpenCV on RPi](https://qengineering.eu/install-opencv-4.2-on-raspberry-pi-4.html)
