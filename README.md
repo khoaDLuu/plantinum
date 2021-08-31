@@ -15,8 +15,8 @@ Smart plant monitoring system
 git clone git@github.com:khoaDLuu/plantinum.git
 ```
 
-* Set up React Native app for mobile app
+* Set up React Native app for [mobile app](./mobile-ui/README.md)
 
-* Set up Python for server
+* Set up Python for [API server](./server-api/README.md)
 
-* Set up Arduino and Rasberry Pi environments
+* Set up [Arduino and Rasberry Pi](./sensors-dc/README.md) environments
