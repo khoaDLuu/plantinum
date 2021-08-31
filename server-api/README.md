@@ -25,8 +25,8 @@
   ```
 
 * Download the datasets
-  * for plant type classifier: [plants](#)
-  * for leave problem detector: [plantproblems](#)
+  * for plant type classifier: [plants](https://github.com/khoaDLuu/plantinum/releases/download/v1.0-beta/planttype.model)
+  * for leave problem detector: [leaveproblems](https://github.com/khoaDLuu/plantinum/releases/download/v1.0-beta/leaveproblem.model)
 
 * Set up virtual evironment
   * Make sure the current location is `server-api`, if it's the root directory:
@@ -52,8 +52,8 @@
 * Install [Python 3.8](https://www.python.org/downloads/)
 
 * Download the datasets
-  * for plant type classifier: [plants](#)
-  * for leave problem detector: [plantproblems](#)
+  * for plant type classifier: [plants](https://github.com/khoaDLuu/plantinum/releases/download/v1.0-beta/planttype.model)
+  * for leave problem detector: [plantproblems](https://github.com/khoaDLuu/plantinum/releases/download/v1.0-beta/leaveproblem.model)
 
 * Set up virtual evironment
   * Make sure the current location is `server-api`. If it's the root directory:
