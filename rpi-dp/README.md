@@ -36,3 +36,6 @@
   * `pip3 install pillow imutils`
   * `pip3 install scipy --no-cache-dir`
   * `pip3 install keras==2.3.1`
+
+## LeNet archtecture
+![LeNet](https://user-images.githubusercontent.com/46435936/131597300-65aefda9-ccac-4186-a3ad-a8de01bc8695.png)
