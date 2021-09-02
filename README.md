@@ -13,7 +13,7 @@ Smart indoor plant monitoring system
   * Light intensity
   * Soil moisture
 * Simple watering system
-* Environment data display on mobile app
+* Environment data and plant photo display on mobile app
 * Simple plant leave problem detection (currently not working very well)
 * Alerting LED
 
@@ -22,6 +22,7 @@ Smart indoor plant monitoring system
 * Improved plant leave problem detection
 * Auto lighting
 * Multi-plant monitoring
+* Plant time-lapse video generation
 
 ## Architecture and Design
 ### Data flow
