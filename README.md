@@ -27,7 +27,7 @@ Smart indoor plant monitoring system
 ### Data flow
 ![dataflow](https://user-images.githubusercontent.com/46435936/131373533-f7ab8b5e-1e64-4eb7-8bd1-f135314a87ae.png)
 
-### Circuit wiring
+### Hardware component assembly
 ![circuit wiring](https://user-images.githubusercontent.com/46435936/131376822-c9dd440f-9a64-415f-9f07-f7c5245636c2.png)
 
 ## Installation
