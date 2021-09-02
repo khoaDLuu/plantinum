@@ -39,3 +39,7 @@
 
 ## LeNet archtecture
 ![LeNet](https://user-images.githubusercontent.com/46435936/131597300-65aefda9-ccac-4186-a3ad-a8de01bc8695.png)
+
+## References
+* [Tutorial of Image Recognition and RPi](https://www.pyimagesearch.com/2017/12/11/image-classification-with-keras-and-deep-learning/)
+* [How to install OpenCV on RPi](https://qengineering.eu/install-opencv-4.2-on-raspberry-pi-4.html)
