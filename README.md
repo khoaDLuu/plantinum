@@ -1,5 +1,27 @@
 # PLANTINUM
-Smart plant monitoring system
+Smart indoor plant monitoring system
+
+## Features
+* Plant type recognition for proper watering
+  * Succulent
+  * Palmplant
+  * Flower
+  * Foliage plant
+* Environmental data gathering
+  * Temperature
+  * Humidity
+  * Light intensity
+  * Soil moisture
+* Simple watering system
+* Environment data display on mobile app
+* Simple plant leave problem detection (currently not working very well)
+* Alerting LED
+
+## Nice-to-have features
+* Environment data stats and visualization
+* Improved plant leave problem detection
+* Auto lighting
+* Multi-plant monitoring
 
 ## Architecture and Design
 ### Data flow
