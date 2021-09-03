@@ -57,7 +57,7 @@ def hello():
 @auth.login_required(role='admin')
 def add_user():
     # TODO implement JSON validation with decorators
-    # TODO implement logging with decorators
+    # TODO add logging
 
     username = request.json.get('username')
     password = request.json.get('password')
@@ -236,7 +236,7 @@ def add_new_plant():
 @app.route('/plants/<int:plant_id>/sensor_data', methods=['GET'])
 @auth.login_required
 def fetch_data_list(plant_id):
-    # TODO Implement query param to fetch a number of data rows
+    # TODO Implement pagination
 
     data_plant = (
         db.session.query(PlantData)
@@ -313,11 +313,13 @@ def retrieve_latest(plant_id):
 @app.route('/plants_with_data', methods=['GET'])
 @auth.login_required
 def fetch_plants_with_data():
+    # TODO add pagination
+    
     results = (
         db.session.query(Plant, PlantType)
         .filter(Plant.type_id == PlantType.id)
         # .filter(PlantType.name in type_names)
-        .order_by(Plant.id.desc())
+        .order_by(Plant.id.desc())  # why?
         .all()
     )
 
@@ -332,7 +334,26 @@ def fetch_plants_with_data():
     ]
 
     plants_with_data = []
-    for plant in plant_list:  #! TODO fix querying in loop
+
+    #! TODO CRITICAL fix in-loop querying; raw SQL query:
+    # SELECT Plant.id, Plant.name, Plant.date_added, PlantType.name AS type,
+    #   LatestPlantData.generic_data, LatestPlantData.time_recorded AS last_recorded
+    # FROM Plant
+    # JOIN PlantType ON Plant.type_id = PlantType.id
+    # JOIN (
+    #   SELECT PlantData.*
+    #   FROM PlantData
+    #   JOIN (
+    #     SELECT PlantData.plant_id, MAX(PlantData.time_recorded) AS last_recorded
+    #     FROM PlantData
+    #     GROUP BY PlantData.plant_id
+    #   ) LatestRecordTime
+    #   ON LatestRecordTime.plant_id = PlantData.plant_id
+    #   AND LatestRecordTime.last_recorded = PlantData.time_recorded
+    # ) LatestPlantData ON LatestPlantData.plant_id = Plant.id
+    # ORDER BY last_recorded;
+
+    for plant in plant_list:
         latest_ss_data = (
             db.session.query(PlantData)
             .filter_by(plant_id=plant['id'])
