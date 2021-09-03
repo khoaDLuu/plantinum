@@ -27,3 +27,9 @@
 ![High level](https://user-images.githubusercontent.com/46435936/131376822-c9dd440f-9a64-415f-9f07-f7c5245636c2.png)
 
 * Details
+
+## References
+* Arduino - Raspberry Pi Connection
+  * https://diyi0t.com/arduino-to-raspberry-pi-serial-communication/
+  * https://roboticsbackend.com/raspberry-pi-arduino-serial-communication/
+* Arduino - Soil Moisture Sensor: https://www.instructables.com/id/Arduino-Soil-Moisture-Sensor/
