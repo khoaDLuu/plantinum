@@ -24,7 +24,7 @@
   sudo apt install python3.8-venv
   ```
 
-* Download the datasets
+* ~~Download the datasets~~ (Removed as image recognition will run on RPi instead of the API server)
   * for plant type classifier: [plants](https://github.com/khoaDLuu/plantinum/releases/download/v1.0-beta/planttype.model)
   * for leave problem detector: [leaveproblems](https://github.com/khoaDLuu/plantinum/releases/download/v1.0-beta/leaveproblem.model)
 
@@ -74,3 +74,9 @@
   pip install -r requirements.txt
   ```
 
+### Deployment
+Heroku app with PostgreSQL DB
+
+### References
+* [Flask RESTful API server](https://www.bogotobogo.com/python/python-REST-API-Http-Requests-for-Humans-with-Flask.php)
+* [Authentication for Flask app](https://blog.miguelgrinberg.com/post/restful-authentication-with-flask)
