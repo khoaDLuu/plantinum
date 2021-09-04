@@ -1,4 +1,5 @@
 import time
+import logging
 
 from serial import Serial
 import RPi.GPIO as GPIO
@@ -17,6 +18,12 @@ GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BOARD)
 
 load_dotenv()
+
+logging.basicConfig(
+    level=logging.DEBUG,
+    filename='app.log', filemode='w',
+    format='[%(asctime)s] %(name)s - %(levelname)s - %(message)s'
+)
 
 
 class BadSerialSignal(Exception):
@@ -43,19 +50,23 @@ class APICom:
         self.plant_id = plant_id
 
     def get_auth_token(self):
+        # TODO: Implement this to use token instead of password
         pass
 
-    def add_plant(self):
+    def add_plant(self, data):
         try:
             r = requests.post(
                 f'{self.base_url}/plants',
                 json=data,
                 auth=self._auth
             )
-            self.plant_id = r.json()['username']
-            print(r.json())
-        except:
-            raise
+            self.plant_id = r.json()['plant_id']
+            logging.debug(r.json())
+        except Exception as e:
+            logging.error(
+                "Exception occurred when adding new plant",
+                exc_info=True
+            )
 
     def submit_sensor_data(self, data):
         try:
@@ -64,9 +75,12 @@ class APICom:
                 json=data,
                 auth=self._auth
             )
-            print(r)
-        except:
-            raise
+            logging.debug(r.json())
+        except Exception as e:
+            logging.error(
+                "Exception occurred when submitting sensor data",
+                exc_info=True
+            )
 
 
 class SerialCom:
@@ -162,8 +176,10 @@ class PlantMonitor:
                 time.sleep(1)
             
             except ValueError as e:
-                print(e)
-                pass
+                logging.warn(
+                    f"An error occurred: {e}\nRetrying...",
+                    exc_info=True
+                )
 
             # except ConnectingError:
             #     pass
@@ -177,15 +193,17 @@ class PlantMonitor:
                     self.communicate()
 
             except BadSerialSignal as e:
-                print(e)
-                pass
+                logging.warn(
+                    f"An error occurred: {e}\nRetrying...",
+                    exc_info=True
+                )
             
             except KeyboardInterrupt:
                 GPIO.cleanup()
                 raise
 
             except Exception:
-                raise
+                logging.exception(f"An error occurred: {e}\nRetrying...")
 
 
 if __name__ == '__main__':
